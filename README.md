@@ -104,7 +104,7 @@ TripPlanner provides a comprehensive interface for planning, editing, and saving
 
 ## 👤 Developer & Credits
 
-* **Developer**: Atul
+* **Developer**: Gaurav_Shukla
 * **Project**: TripPlanner (Interactive Trip Planner)
 * **Purpose**: Internship Assignment Submission
 
