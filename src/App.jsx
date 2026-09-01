@@ -141,7 +141,9 @@ function App() {
         requestBody.existingItinerary = itinerary;
       }
 
-      const response = await fetch('/api/generate', {
+      const API_URL = 'https://atul-trip-planner-backend.onrender.com';
+
+      const response = await fetch(`${API_URL}/api/generate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
