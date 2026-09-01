@@ -166,6 +166,6 @@ Provide between 2 to 7 days of activities based on the user's description (defau
 });
 
 // Start the server
-app.listen(PORT, '127.0.0.1', () => {
-  console.log(`Backend server is running on http://127.0.0.1:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Backend server is running on port ${PORT}`);
 });
