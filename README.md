@@ -1,134 +1,977 @@
 # 🗺️ TripPlanner - Interactive Trip Planner
 
-TripPlanner is a handcrafted React + Express web application designed to take free-form trip descriptions, generate structured day-by-day travel itineraries using the Gemini AI model, and render them as an interactive board. 
+> An AI-powered interactive travel journal that generates, manages, and customizes personalized day-by-day travel itineraries.
 
-The application avoids plain chat interfaces in favor of a stateful, interactive **travel journal board** where users can expand, reorder, edit, and adjust their stops in real-time.
+## 🌐 Live Demo
+
+🚀 **[Open TripPlanner →](https://trip-planner-50hi.onrender.com)**
+
+**Frontend:** [https://trip-planner-50hi.onrender.com](https://trip-planner-50hi.onrender.com)
+
+**Backend:** [https://atul-trip-planner-backend.onrender.com](https://atul-trip-planner-backend.onrender.com)
+
+---
+
+## 📖 About the Project
+
+**TripPlanner** is a handcrafted React + Express web application designed to transform free-form travel descriptions into structured, day-by-day travel itineraries using the **Google Gemini API**.
+
+Instead of using a traditional chatbot-style interface, TripPlanner provides an interactive **travel journal board** where users can explore, edit, reorder, and customize their travel plans in real time.
+
+The application combines AI-powered itinerary generation with an interactive visual planning experience.
 
 ---
 
 ## ✨ Features
 
-- **Cozy Travel Journal Theme**: A bespoke UI styling theme with custom paper backgrounds, handwriting notes, active markers, and cohesive warm color palettes that support both light and dark mode toggles.
-- **In-place Editing**: Modify any day title, theme, stop name, time, description, location, cost, or duration directly in the UI.
-- **Interactive Day and Stop Management**:
-  - Add or delete entire days (the app automatically repairs sequence indexing).
-  - Add new stops or delete existing ones.
-  - Reorder stops chronological order with Up and Down controls.
-- **Stale Response Protection**: Utilizes a sequence tracking hook/ref inside `src/App.jsx` to ignore slower in-flight AI responses if the user submits a new prompt in the meantime.
-- **Error Recovery & Demo Mode**: If the Gemini API fails, has no key configured, or rate limits, the app presents a clear error dialog with setup instructions and offers:
-  - **Try Tokyo Demo**: Load a rich pre-designed 3-day Tokyo itinerary template to try all interactive editing tools immediately.
-  - **Start from Scratch**: Start with a single blank day and design your itinerary manually.
-- **Mobile Responsive**: Scalable layouts optimized for both mobile screens and desktop monitors.
-- **Export Utilities**: Export your finalized itinerary as structured JSON, or trigger a clean print-ready layout.
+### 🗺️ AI-Powered Trip Planning
+
+Users can describe their trip naturally, for example:
+
+> "Create a 4-day trip to Tokyo focusing on anime culture, temples, and local food."
+
+The application generates a structured itinerary containing:
+
+- Day-by-day plans
+- Morning, afternoon, and evening activities
+- Activity descriptions
+- Locations
+- Estimated duration
+- Estimated cost
+- Daily themes
 
 ---
 
-## 🛠️ Tech Stack
+### 📖 Cozy Travel Journal Theme
 
-- **Frontend**: React (Hooks, Functional Components, Lucide Icons)
-  - Main component: `src/App.jsx`
-  - Components: `Header.jsx`, `DaysSidebar.jsx`, `DayContentPanel.jsx`, `StopCard.jsx`, `PromptForm.jsx`, `HistorySidebar.jsx`, `ErrorBox.jsx`, and `Footer.jsx`
-- **Styling**: Vanilla CSS (Harmonious HSL properties, layout grids, modern typography) via `src/index.css`
-- **Backend Proxy**: Node.js + Express (to route and secure the API Key outside the browser environment)
-  - Main server: `server.js`
-- **AI Integration**: Google Gemini API (`gemini-3.6-flash` model for structured JSON outputs)
+TripPlanner is designed to feel like a digital travel journal instead of a generic AI chatbot.
+
+The UI includes:
+
+- Paper-inspired backgrounds
+- Journal-style cards
+- Sticky-note elements
+- Binder-ring visual elements
+- Polaroid-inspired frames
+- Handwritten-style visual elements
+- Warm color palettes
+- Light mode
+- Dark mode
 
 ---
 
-## 🚀 Setup & Installation
+### ✏️ In-Place Editing
 
-### 1. Prerequisites
-Ensure you have [Node.js](https://nodejs.org/) installed (v18.x or later).
+Almost every major itinerary field can be edited directly from the interface.
 
-### 2. Clone and Install Dependencies
-Navigate to the project root directory and run:
+Users can modify:
+
+- Day title
+- Day theme
+- Activity name
+- Time
+- Description
+- Location
+- Duration
+- Cost
+
+Changes are reflected immediately in the interactive itinerary board.
+
+---
+
+### 📅 Interactive Day Management
+
+Users can:
+
+- Add new days
+- Delete existing days
+- Automatically re-index day numbers
+- Switch between different days
+- Add new stops
+- Delete existing stops
+
+For example:
+
+```text
+Day 1
+Day 2
+Day 3
+```
+
+If Day 2 is deleted:
+
+```text
+Day 1
+Day 2
+```
+
+The application automatically repairs the day numbering.
+
+---
+
+### 🔄 Stop Reordering
+
+Activities within a day can be reordered using:
+
+- ⬆️ Up
+- ⬇️ Down
+
+This allows users to adjust the sequence of activities according to their preferred schedule.
+
+---
+
+### 🤖 AI Itinerary Refinement
+
+After generating an itinerary, users can provide follow-up instructions.
+
+Examples:
+
+```text
+Make it more budget friendly
+```
+
+```text
+Add a museum visit to Day 2
+```
+
+```text
+Remove expensive activities
+```
+
+```text
+Add more local food experiences
+```
+
+The application sends the existing itinerary along with the new instruction to Gemini so that the AI can refine the current plan.
+
+---
+
+### 🛡️ Stale Response Protection
+
+TripPlanner uses a request sequence tracker in `src/App.jsx`.
+
+If multiple AI requests are submitted before an earlier request finishes, slower responses from older requests are ignored.
+
+This prevents an outdated AI response from overwriting the latest itinerary.
+
+---
+
+### 🚨 Error Recovery & Demo Mode
+
+The application handles API failures and other generation errors gracefully.
+
+Users can:
+
+- Retry the request
+- Load a pre-built Tokyo demo itinerary
+- Start a new itinerary from scratch
+
+The demo mode allows users to explore the application's editing features even when the AI service is unavailable.
+
+---
+
+### 📱 Responsive Design
+
+The interface is optimized for:
+
+- Desktop
+- Laptop
+- Tablet
+- Mobile browsers
+
+The layout adapts to different screen sizes while maintaining the journal-style experience.
+
+---
+
+### 💾 Trip History
+
+Generated and modified itineraries are automatically stored in the browser using `localStorage`.
+
+Users can:
+
+- View previous trips
+- Restore previous itineraries
+- Continue editing saved trips
+- Delete old trips
+
+No external database is required for trip history.
+
+---
+
+### 📤 Export as JSON
+
+Users can export their finalized itinerary as a structured JSON file.
+
+Example:
+
+```text
+itinerary-tokyo-trip.json
+```
+
+---
+
+### 🖨️ Print Itinerary
+
+TripPlanner includes a print-friendly layout.
+
+Users can print their itinerary or save it as a PDF using the browser's print dialog.
+
+Web-only controls such as buttons and sidebars are hidden from the print layout.
+
+---
+
+# 🛠️ Tech Stack
+
+## Frontend
+
+- React
+- Vite
+- JavaScript
+- React Hooks
+- Lucide React Icons
+
+### Main Frontend Component
+
+```text
+src/App.jsx
+```
+
+### Components
+
+```text
+src/components/
+├── Header.jsx
+├── HistorySidebar.jsx
+├── PromptForm.jsx
+├── LoadingBox.jsx
+├── ErrorBox.jsx
+├── EmptyState.jsx
+├── DaysSidebar.jsx
+├── DayContentPanel.jsx
+├── StopCard.jsx
+└── Footer.jsx
+```
+
+---
+
+## Backend
+
+- Node.js
+- Express
+- CORS
+- dotenv
+- Google Generative AI SDK
+
+### Main Backend
+
+```text
+server.js
+```
+
+The Express backend acts as a proxy between the frontend and Gemini API.
+
+This keeps the Gemini API key on the server instead of exposing it directly in the browser.
+
+---
+
+## Styling
+
+TripPlanner uses:
+
+- Vanilla CSS
+- CSS variables
+- HSL-based theme values
+- Responsive layouts
+- Custom print styles
+
+Main stylesheet:
+
+```text
+src/index.css
+```
+
+---
+
+## AI Integration
+
+TripPlanner uses the **Google Gemini API** for itinerary generation.
+
+Current model:
+
+```text
+gemini-3.6-flash
+```
+
+The backend requests structured JSON output so that the response can be parsed and rendered by the React application.
+
+---
+
+# 📁 Project Structure
+
+```text
+TripPlanner/
+│
+├── src/
+│   ├── components/
+│   │   ├── Header.jsx
+│   │   ├── HistorySidebar.jsx
+│   │   ├── PromptForm.jsx
+│   │   ├── LoadingBox.jsx
+│   │   ├── ErrorBox.jsx
+│   │   ├── EmptyState.jsx
+│   │   ├── DaysSidebar.jsx
+│   │   ├── DayContentPanel.jsx
+│   │   ├── StopCard.jsx
+│   │   └── Footer.jsx
+│   │
+│   ├── App.jsx
+│   ├── utils.js
+│   └── index.css
+│
+├── server.js
+├── vite.config.js
+├── package.json
+├── .env.example
+├── .gitignore
+└── README.md
+```
+
+---
+
+# 🚀 Setup & Installation
+
+## 1. Prerequisites
+
+Make sure the following are installed:
+
+- Node.js v18.x or later
+- npm
+
+Check your Node.js version:
+
+```bash
+node --version
+```
+
+Check npm:
+
+```bash
+npm --version
+```
+
+---
+
+## 2. Clone the Repository
+
+```bash
+git clone https://github.com/gauravshuklaaaaa/trip-planner.git
+```
+
+Move into the project directory:
+
+```bash
+cd trip-planner
+```
+
+---
+
+## 3. Install Dependencies
+
+Run:
+
 ```bash
 npm install
 ```
-*This installs all necessary packages specified in `package.json` for both the Vite React frontend and Express backend.*
 
-### 3. Configure API Key
-Create a `.env` file in the project root by copying the structure from `.env.example`:
+This installs all required dependencies for the React frontend and Express backend.
+
+---
+
+# 🔑 4. Configure Gemini API Key
+
+Create a `.env` file in the project root.
+
+You can use `.env.example` as a template:
+
 ```bash
 cp .env.example .env
 ```
-Open the `.env` file and replace the placeholder with your actual Gemini API Key:
-```env
-GEMINI_API_KEY=AIzaSyYourActualKeyHere...
-```
-*(You can get a free API Key at [Google AI Studio](https://aistudio.google.com/))*
 
-### 4. Run the Application
-Start the development environment by running:
+Then add your Gemini API key:
+
+```env
+GEMINI_API_KEY=YOUR_GEMINI_API_KEY
+```
+
+The backend reads the key using:
+
+```js
+process.env.GEMINI_API_KEY
+```
+
+### ⚠️ Security
+
+**Never commit your `.env` file to GitHub.**
+
+Make sure `.env` is included in `.gitignore`.
+
+For production deployment, configure `GEMINI_API_KEY` through the hosting provider's environment-variable settings.
+
+---
+
+# ▶️ 5. Run the Application Locally
+
+Start the development environment:
+
 ```bash
 npm start
 ```
-This script executes **concurrently** to run:
-- Express backend API server on [http://localhost:3001](http://localhost:3001)
-- Vite React frontend server on [http://localhost:5173](http://localhost:5173) (requests are automatically proxied via Vite configuration in `vite.config.js`)
 
-Open [http://localhost:5173](http://localhost:5173) in your browser to experience TripPlanner!
+The application runs two services.
 
----
+### Backend
 
-## 📖 Usage Guide
+```text
+http://localhost:3001
+```
 
-TripPlanner provides a comprehensive interface for planning, editing, and saving travel itineraries. Here is how you can get the most out of it:
+### Frontend
 
-### 1. Generating a Travel Itinerary
-* **Use Prompts**: Enter your trip details in the central prompt form (e.g., *"A 4-day trip to Tokyo focusing on art galleries and local cuisine"*).
-* **Use Quick Suggestions**: Click on one of the pre-configured suggestion pills (e.g., *🌸 3 Days in Tokyo*, *🏰 5 Days in Paris*, or *🥾 4 Days in Iceland*) to quickly fill the input box and trigger generation.
-* **Refining / Modifying**: Once an itinerary is loaded, you can enter follow-up instructions (e.g., *"Make it budget friendly"* or *"Add a museum visit to Day 2"*). The app sends the current state along with your prompt to the backend, enabling contextual updates.
+```text
+http://localhost:5173
+```
 
-### 2. Navigating and Editing the Journal Board
-* **Switching Days**: Use the sidebar tab panel (`DaysSidebar.jsx`) to jump between different days.
-* **In-place Editing**: Almost every element on the board can be edited in-place:
-  * **Day Details**: Edit the Day Title and Day Theme fields in the header block.
-  * **Stop Details**: Modify the Stop Name (activity), Location, Est. Cost, Duration, and Description directly in the fields.
-* **Reordering Stops**: Use the Up ($\uparrow$) and Down ($\downarrow$) buttons inside any stop card (`StopCard.jsx`) to shift that activity's order within the day.
-* **Managing Days and Stops**:
-  * **Add Day**: Scroll to the bottom of the days list and click "+ Add Day" to append a blank day.
-  * **Delete Day**: Click the trash icon on the day's tab button to remove it. Day numbers will automatically re-index.
-  * **Add Stop**: Click the "+ Add Stop" button at the bottom of the day's timeline to create a new stop.
-  * **Delete Stop**: Click the "Delete" button inside a stop card to remove it from the timeline.
+Open:
 
-### 3. Settings & History Sidebar
-* **Toggle Theme**: Click the theme switcher button in the header (`Header.jsx`) to alternate between a clean warm Light Mode and a deep, cozy dark paper Dark Mode.
-* **Trip History**: Click the history icon (or slide open the history sidebar) to view previous itineraries. TripPlanner automatically saves generated and modified trips locally. You can restore previous plans or clear your history at any time.
+```text
+http://localhost:5173
+```
 
-### 4. Exporting & Printing
-* **Export as JSON**: Click the "Export JSON" button to download your customized trip data as a structured JSON file.
-* **Print Itinerary**: Click the "Print" button to open the browser's print dialog. The interface loads a specialized print stylesheet that hides web-only controls (buttons, forms, and sidebars) and optimizes the pages for paper printing or saving as PDF.
+in your browser.
 
 ---
 
-## 👤 Developer & Credits
+# 🔌 API
 
-* **Developer**: Gaurav_Shukla
-* **Project**: TripPlanner (Interactive Trip Planner)
-* **Purpose**: Internship Assignment Submission
+TripPlanner exposes the following main backend endpoint:
 
-### 🤖 AI-Usage Note
-This project was developed by Atul with the assistance of **Antigravity (an AI coding assistant)**:
-- **What AI did**: Assisted in scaffolding the Vite project, writing boilerplate Express route configurations in `server.js`, suggesting responsive CSS variables for light/dark modes, and assisting with boundary check validation logic in the stop reordering states.
-- **What a Human (Atul) did**: Hand-tuned the aesthetic design layout (adding binder ring simulations, polaroid frames, and sticky note styling), designed the fallbacks (the interactive Tokyo demo and start from scratch functions), and carefully commented the code logic to explain the state mutations.
+```text
+POST /api/generate
+```
+
+### Request
+
+```json
+{
+  "prompt": "Create a 3 day trip to Tokyo with temples and anime",
+  "existingItinerary": []
+}
+```
+
+`existingItinerary` is optional and is used when refining an existing itinerary.
 
 ---
 
-## ⚠️ Known Limitations
+## Response
 
-1. **AI Output Consistency**: Occasionally, very short or nonsensical user prompts might return itineraries with empty descriptions or fewer stops than expected. The app uses a fallback utility sanitizer (`sanitizeItinerary` in `src/utils.js`) to fill empty fields with readable defaults to prevent app crashes.
-2. **Rate Limits**: The free tier of Gemini has a limit of 15 requests per minute. If this quota is hit, the application catches the error code and shows a friendly retry notice.
-3. **Sequential Reordering**: Reordering stops currently moves elements up or down inside their active Day array. Drag-and-drop between different days is not implemented in order to keep the codebase lightweight and highly responsive on mobile browsers without introducing bulky external packages.
-4. **Local Storage Limit**: Trip history is stored in the browser's local storage (up to ~5MB). Exceeding this limit might prevent saving new trips unless older ones are deleted.
+The backend returns a structured itinerary:
+
+```json
+{
+  "itinerary": [
+    {
+      "dayNumber": 1,
+      "title": "Traditional Tokyo",
+      "theme": "Temples and Culture",
+      "stops": [
+        {
+          "time": "Morning",
+          "activity": "Senso-ji Temple",
+          "description": "Explore one of Tokyo's most famous temples.",
+          "location": "Asakusa",
+          "duration": "2 hours",
+          "cost": "Free"
+        }
+      ]
+    }
+  ]
+}
+```
 
 ---
 
-## ⏱️ Time Spent
+# 📖 Usage Guide
 
-- **Planning & Research**: 45 mins (interpreting structured output schemas and fallback structures)
-- **Backend Setup & API Proxying**: 45 mins (Express implementation, proxy setup in Vite, defensive JSON parser)
-- **Frontend Board & Interaction Logic**: 1.5 hours (React states, active tabs, add/remove day, add/remove stop, move item)
-- **UI/UX Styling (Cozy Journal Theme)**: 1 hour (Light/dark variables, timeline design, washi-tape decorations, print stylesheets)
-- **Testing & Documentation**: 30 mins (verification of edge cases, README)
-- **Total Time**: **~4.5 Hours**
+## 1. Generate a Travel Itinerary
+
+Enter a natural-language travel request.
+
+Example:
+
+```text
+A 4-day trip to Tokyo focusing on art galleries,
+local cuisine, and cultural experiences.
+```
+
+Click:
+
+```text
+Plan Trip
+```
+
+The frontend sends the request to the Express backend.
+
+The backend sends the request to Gemini and returns a structured itinerary.
+
+---
+
+## 2. Quick Suggestions
+
+TripPlanner provides predefined travel suggestions such as:
+
+- 🌸 3 Days in Tokyo
+- 🏰 5 Days in Paris
+- 🥾 4 Days in Iceland
+
+Clicking a suggestion automatically starts itinerary generation.
+
+---
+
+## 3. Refine an Existing Trip
+
+After generating an itinerary, users can enter additional instructions.
+
+Examples:
+
+```text
+Make it budget friendly
+```
+
+```text
+Add a museum visit to Day 2
+```
+
+```text
+Remove expensive activities
+```
+
+```text
+Add more local food experiences
+```
+
+The existing itinerary is sent along with the new prompt so Gemini can update the current plan.
+
+---
+
+# ✏️ Editing the Itinerary
+
+Users can edit itinerary information directly from the board.
+
+### Day Details
+
+- Day title
+- Day theme
+
+### Stop Details
+
+- Activity name
+- Time
+- Description
+- Location
+- Duration
+- Cost
+
+---
+
+# 📅 Managing Days
+
+## Add Day
+
+Click:
+
+```text
++ Add Day
+```
+
+A new day is appended to the itinerary.
+
+---
+
+## Delete Day
+
+Click the delete/trash control on a day.
+
+The application automatically re-indexes the remaining days.
+
+---
+
+# 📍 Managing Stops
+
+## Add Stop
+
+Click:
+
+```text
++ Add Stop
+```
+
+A new editable stop is created.
+
+---
+
+## Delete Stop
+
+Use the delete control inside a stop card.
+
+---
+
+## Reorder Stops
+
+Use:
+
+```text
+↑ Up
+↓ Down
+```
+
+to move an activity within the selected day.
+
+---
+
+# 🌗 Theme
+
+TripPlanner supports:
+
+- Light Mode
+- Dark Mode
+
+The selected theme is stored in browser `localStorage`.
+
+---
+
+# 🕘 Trip History
+
+TripPlanner automatically saves generated and modified itineraries locally.
+
+Trip history allows users to:
+
+- Restore previous trips
+- Continue editing trips
+- Delete old trips
+- Maintain multiple itinerary drafts
+
+Storage is handled using:
+
+```text
+localStorage
+```
+
+---
+
+# 📤 Exporting
+
+Users can export the finalized itinerary as JSON.
+
+The exported file contains the complete structured itinerary including:
+
+- Days
+- Activities
+- Locations
+- Times
+- Descriptions
+- Duration
+- Cost
+
+---
+
+# 🖨️ Printing
+
+Click:
+
+```text
+Print Itinerary
+```
+
+The browser's print dialog will open.
+
+The application includes a dedicated print stylesheet that hides web-only controls and optimizes the itinerary for printing or saving as PDF.
+
+---
+
+# 🛡️ Error Handling
+
+TripPlanner includes defensive error handling for several situations.
+
+### Missing API Key
+
+The backend detects when `GEMINI_API_KEY` is missing and returns an appropriate error.
+
+### Invalid Request
+
+Empty or invalid prompts are rejected before making an AI request.
+
+### Gemini API Errors
+
+Gemini API failures are caught by the Express backend and returned to the frontend.
+
+### Invalid AI Output
+
+The backend validates and parses the Gemini response as JSON.
+
+Malformed responses are handled without crashing the application.
+
+### Request Timeout
+
+The frontend uses `AbortController` to prevent requests from remaining pending indefinitely.
+
+### Stale Requests
+
+Older AI responses are ignored when a newer request has already been submitted.
+
+---
+
+# 🧠 AI Output Structure
+
+Gemini is instructed to return a JSON array containing day objects.
+
+Each day follows this structure:
+
+```json
+{
+  "dayNumber": 1,
+  "title": "Traditional Tokyo",
+  "theme": "Culture and History",
+  "stops": [
+    {
+      "time": "Morning",
+      "activity": "Senso-ji Temple",
+      "description": "Explore the historic temple and surrounding streets.",
+      "location": "Asakusa, Tokyo",
+      "duration": "2 hours",
+      "cost": "Free"
+    }
+  ]
+}
+```
+
+The frontend uses a sanitizer utility to handle incomplete or malformed itinerary fields.
+
+---
+
+# 🌐 Deployment
+
+TripPlanner is deployed using **Render**.
+
+## Frontend
+
+🚀 **[https://trip-planner-50hi.onrender.com](https://trip-planner-50hi.onrender.com)**
+
+## Backend
+
+🔧 **[https://atul-trip-planner-backend.onrender.com](https://atul-trip-planner-backend.onrender.com)**
+
+## API Endpoint
+
+```text
+https://atul-trip-planner-backend.onrender.com/api/generate
+```
+
+The frontend communicates directly with the deployed Express backend.
+
+The Gemini API key remains on the backend and is not exposed to the frontend.
+
+---
+
+# ⚠️ Known Limitations
+
+## 1. AI Output Consistency
+
+Very short, ambiguous, or nonsensical prompts may occasionally result in itineraries with fewer details than expected.
+
+The application uses a sanitizer utility to reduce the possibility of UI crashes caused by incomplete AI responses.
+
+---
+
+## 2. API Quotas and Rate Limits
+
+Gemini API usage is subject to the quota and rate limits associated with the configured API key and model.
+
+If a quota or rate limit is reached, the application displays an appropriate error message and allows the user to retry.
+
+---
+
+## 3. Sequential Reordering
+
+Stop reordering currently works within the active day.
+
+Moving stops directly between different days is not implemented.
+
+---
+
+## 4. Local Storage
+
+Trip history is stored using browser `localStorage`.
+
+The available storage depends on the user's browser and environment.
+
+Very large histories may require older trips to be deleted.
+
+---
+
+## 5. No User Authentication
+
+The current application does not implement:
+
+- User accounts
+- Login
+- Registration
+- Cloud synchronization
+
+Trip history is stored locally in the user's browser.
+
+---
+
+# 🎨 Design Philosophy
+
+TripPlanner intentionally avoids the appearance of a conventional AI chatbot.
+
+The application is designed around the concept of a:
+
+> **Digital Travel Journal**
+
+The interface combines:
+
+- Paper textures
+- Journal-style cards
+- Sticky notes
+- Binder elements
+- Timeline layouts
+- Handwritten-inspired visual elements
+- Warm styling
+- Interactive editing
+
+The goal is to make travel planning feel like organizing a personal travel journal rather than chatting with a generic AI assistant.
+
+---
+
+# 👤 Developer & Credits
+
+**Developer:** Gaurav Shukla
+
+**Project:** TripPlanner - Interactive Trip Planner
+
+**Purpose:** Internship Assignment Submission
+
+---
+
+# 🤖 AI Usage Note
+
+This project was developed with assistance from AI coding tools.
+
+### AI Assistance
+
+AI tools assisted with:
+
+- Initial Vite project scaffolding
+- Express backend boilerplate
+- Gemini API integration structure
+- Responsive CSS suggestions
+- JSON parsing and validation ideas
+- State-management logic suggestions
+- Stop reordering validation
+- Error-handling patterns
+
+### Human Contributions
+
+The project was manually developed and customized with emphasis on:
+
+- UI/UX design
+- Travel journal visual style
+- Binder-ring simulations
+- Polaroid-style frames
+- Sticky-note elements
+- Light/dark themes
+- Interactive editing experience
+- Demo itinerary
+- Start-from-scratch functionality
+- Error recovery flow
+- Final integration
+- Testing and deployment
+
+---
+
+# ⏱️ Time Spent
+
+| Task | Time |
+|---|---:|
+| Planning & Research | 45 mins |
+| Backend Setup & API Proxying | 45 mins |
+| Frontend Board & Interaction Logic | 1.5 hours |
+| UI/UX Styling | 1 hour |
+| Testing & Documentation | 30 mins |
+| **Total** | **~4.5 Hours** |
+
+---
+
+# 📌 Project Highlights
+
+TripPlanner demonstrates practical implementation of:
+
+- React state management
+- React Hooks
+- REST API communication
+- Express backend development
+- Gemini API integration
+- Structured JSON generation
+- Defensive JSON parsing
+- Error handling
+- Request timeout handling
+- Stale request protection
+- Local storage persistence
+- Responsive UI design
+- Light/dark themes
+- Interactive itinerary editing
+- Day and stop management
+- JSON export
+- Print-friendly layouts
+- Frontend/backend deployment
+
+---
+
+# 🔄 Application Flow
+
+```text
+User describes a trip
+        ↓
+React Frontend
+        ↓
+Express Backend
+        ↓
+Google Gemini API
+        ↓
+Structured JSON Itinerary
+        ↓
+Interactive Travel Journal
+        ↓
+Edit / Add / Delete / Reorder
+        ↓
+Refine itinerary with AI
+        ↓
+Save to Trip History
+        ↓
+Export / Print
+```
+
+---
+
+# 🚀 Live Application
+
+## **[🌍 Open TripPlanner →](https://trip-planner-50hi.onrender.com)**
+
+Try the deployed application and create your own AI-powered travel itinerary.
+
+---
+
+## 📄 License
+
+This project was created as an internship assignment and demonstration project.
