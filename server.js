@@ -41,7 +41,7 @@ app.post('/api/generate', async (req, res) => {
     
     // We use gemini-3.6-flash which supports JSON response types, and has a generous free tier.
     const model = genAI.getGenerativeModel({
-      model: 'gemini-3.6-flash',
+      model: 'gemini-2.5-flash',
       systemInstruction: 'You are an expert travel planner. You generate highly practical, structured, and customized day-by-day travel itineraries in JSON. You strictly output JSON arrays containing day objects; never return normal text summaries outside the JSON.'
     });
 
